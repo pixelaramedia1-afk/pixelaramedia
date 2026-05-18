@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta Ads Management — Pixelara Media</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Epilogue:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           DESIGN SYSTEM
+        ============================================ */
+        :root {
+            --cream: #f5f0e8;
+            --cream-dark: #ede7d9;
+            --ink: #1a1612;
+            --ink-soft: #3d3530;
+            --muted: #8c7f74;
+            --orange: #c9480a;
+            --orange-light: #e85d1a;
+            --white: #ffffff;
+            --border: rgba(26, 22, 18, 0.1);
+            --shadow: 0 4px 24px rgba(26, 22, 18, 0.08);
+            --shadow-lg: 0 16px 56px rgba(26, 22, 18, 0.12);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--cream); color: var(--ink);
+            font-family: 'Epilogue', sans-serif; font-weight: 400; line-height: 1.6; overflow-x: hidden;
+        }
+
+        body::before {
+            content: ''; position: fixed; inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+            pointer-events: none; z-index: 0;
+        }
+
+        /* ====== NAV ====== */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            padding: 12px 5%; display: flex; align-items: center; justify-content: space-between;
+            background: rgba(245, 240, 232, 0.9); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border); transition: box-shadow 0.3s ease;
+        }
+        nav.scrolled { box-shadow: var(--shadow); }
+
+        .main-logo-wrapper { display: flex; align-items: center; padding: 0; text-decoration: none; flex-shrink: 0; }
+        .main-logo-img { max-height: 48px; width: auto; max-width: 250px; display: block; object-fit: contain; transition: max-height 0.3s ease; }
+        @media (max-width: 768px) { .main-logo-img { max-height: 38px; max-width: 180px; } }
+
+        .nav-links { display: flex; align-items: center; gap: 40px; list-style: none; margin: 0; padding: 0; }
+        .nav-links a { font-size: 14px; font-weight: 500; color: var(--ink-soft); text-decoration: none; letter-spacing: 0.5px; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--orange); }
+        .nav-cta {
+            background: var(--ink); color: var(--cream) !important; padding: 10px 22px;
+            border-radius: 6px; font-size: 13px !important; font-weight: 600 !important; transition: background 0.2s !important;
+        }
+        .nav-cta:hover { background: var(--orange) !important; color: var(--white) !important; }
+
+        /* ====== PAGE LAYOUT ====== */
+        .service-hero {
+            padding: 180px 5% 100px;
+            background: linear-gradient(180deg, var(--cream-dark) 0%, var(--cream) 100%);
+            border-bottom: 1px solid var(--border);
+            text-align: center; position: relative; z-index: 1;
+        }
+        .service-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(40px, 5vw, 64px); line-height: 1.1; margin-bottom: 24px; color: var(--ink); }
+        .service-hero h1 em { font-style: italic; color: var(--orange); }
+        .service-hero p { max-width: 700px; margin: 0 auto 32px; font-size: 18px; color: var(--ink-soft); }
+        .btn-primary { display: inline-flex; align-items: center; gap: 10px; background: var(--orange); color: var(--white); padding: 16px 32px; border-radius: 6px; font-weight: 600; text-decoration: none; transition: transform 0.2s, background 0.2s; }
+        .btn-primary:hover { transform: translateY(-2px); background: var(--orange-light); }
+
+        .content-section { padding: 100px 5%; position: relative; z-index: 1; }
+        .grid-split { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; max-width: 1200px; margin: 0 auto; align-items: center; }
+        .content-block h2 { font-family: 'Playfair Display', serif; font-size: 36px; margin-bottom: 24px; color: var(--ink); }
+        .content-block p { font-size: 16px; color: var(--ink-soft); margin-bottom: 20px; line-height: 1.8; }
+        
+        .img-wrap { border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-lg); }
+        .img-wrap img { width: 100%; height: auto; display: block; object-fit: cover; }
+
+        .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; max-width: 1200px; margin: 60px auto 0; }
+        .info-card { background: var(--white); padding: 40px; border-radius: 12px; border: 1px solid var(--border); transition: transform 0.3s; }
+        .info-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+        .info-card-icon { width: 48px; height: 48px; background: var(--orange-pale); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; color: var(--orange); }
+        .info-card h3 { font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 16px; color: var(--ink); }
+        .info-card p { font-size: 14px; color: var(--ink-soft); line-height: 1.7; }
+
+        .process-list { max-width: 800px; margin: 0 auto; list-style: none; }
+        .process-item { display: flex; gap: 24px; margin-bottom: 40px; }
+        .process-num { width: 48px; height: 48px; flex-shrink: 0; background: var(--ink); color: var(--white); font-weight: 700; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .process-body h3 { font-family: 'Playfair Display', serif; font-size: 24px; margin-bottom: 12px; }
+        .process-body p { color: var(--ink-soft); font-size: 15px; line-height: 1.7; }
+
+        /* ====== FOOTER ====== */
+        footer { background: var(--ink); padding: 60px 5% 40px; border-top: 1px solid rgba(255,255,255,0.06); position: relative; z-index: 1; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; margin-bottom: 48px; }
+        .footer-brand { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--cream); margin-bottom: 12px; }
+        .footer-logo-img { max-height: 44px; width: auto; max-width: 200px; display: block; object-fit: contain; filter: brightness(0) invert(1); }
+        .footer-desc { font-size: 13px; color: rgba(245,240,232,0.35); line-height: 1.7; font-weight: 300; max-width: 280px; }
+        .footer-col-title { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: rgba(245,240,232,0.4); margin-bottom: 16px; }
+        .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+        .footer-links a { font-size: 13px; color: rgba(245,240,232,0.4); text-decoration: none; transition: color 0.2s; font-weight: 300; }
+        .footer-links a:hover { color: var(--orange); }
+        .footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center; }
+        .footer-copy { font-size: 12px; color: rgba(245,240,232,0.25); font-weight: 300; }
+
+        @media (max-width: 900px) {
+            .grid-split { grid-template-columns: 1fr; gap: 40px; }
+            .cards-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav id="navbar">
+        <a href="pixelaramedia new file edited.html" class="main-logo-wrapper">
+            <img src="logo/logo transparent background.png" alt="Pixelara Media" class="main-logo-img" />
+        </a>
+        <ul class="nav-links">
+            <li><a href="pixelaramedia new file edited.html#about">About</a></li>
+            <li><a href="pixelaramedia new file edited.html#services">Services</a></li>
+            <li><a href="pixelaramedia new file edited.html#cases">Case Studies</a></li>
+            <li><a href="pixelaramedia new file edited.html#packages">Packages</a></li>
+            <li><a href="pixelaramedia new file edited.html#contact" class="nav-cta">Let's Talk</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section class="service-hero">
+        <h1>High-Converting <em>Meta Ads</em></h1>
+        <p>Turn Facebook and Instagram into your most predictable revenue engines. I build full-funnel architectures designed for scale, profitability, and audience retention.</p>
+        <a href="pixelaramedia new file edited.html#contact" class="btn-primary">Book a Strategy Call</a>
+    </section>
+
+    <!-- OVERVIEW -->
+    <section class="content-section">
+        <div class="grid-split">
+            <div class="content-block">
+                <h2>Strategy Over Settings</h2>
+                <p>The days of relying purely on Facebook's targeting interests are over. Today, Meta Ads run on machine learning, which means your success is dictated by your <strong>funnel architecture</strong> and your <strong>creative strategy</strong>.</p>
+                <p>I don't just launch campaigns; I build ecosystems. By structuring your account to feed the algorithm the highest quality data, we lower your CPA and stabilize your daily returns, allowing us to safely scale spend.</p>
+                <p>Whether you're an eCommerce brand looking to push high-AOV products or a B2B consultancy needing qualified pipeline, my methodology adapts to capture your specific buyer psychology.</p>
+            </div>
+            <div class="img-wrap" style="background: #fdfdfd; padding: 24px; display: flex; flex-direction: column; gap: 16px; border: 1px solid var(--border);">
+                <!-- Header -->
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 16px;">
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <div style="width: 24px; height: 24px; background: #1877F2; border-radius: 4px; display: flex; justify-content: center; align-items: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.989C18.343 21.129 22 16.99 22 12c0-5.523-4.477-10-10-10z"/></svg></div>
+                        <span style="font-weight: 600; font-size: 14px; color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">Campaigns</span>
+                    </div>
+                    <div style="background: #e4e6eb; color: #050505; border-radius: 6px; padding: 6px 12px; font-size: 12px; font-weight: 600; font-family: -apple-system, sans-serif;">Last 30 Days ▾</div>
+                </div>
+                <!-- KPI Row -->
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; font-family: -apple-system, sans-serif;">
+                    <div style="background: white; border: 1px solid #ced0d4; border-radius: 8px; padding: 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                        <div style="font-size: 12px; color: #65676b; margin-bottom: 4px;">Amount Spent</div>
+                        <div style="font-size: 22px; font-weight: 700; color: #050505;">$14,250.00</div>
+                    </div>
+                    <div style="background: white; border: 1px solid #ced0d4; border-radius: 8px; padding: 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                        <div style="font-size: 12px; color: #65676b; margin-bottom: 4px;">Purchases</div>
+                        <div style="font-size: 22px; font-weight: 700; color: #31a24c;">342</div>
+                    </div>
+                    <div style="background: white; border: 1px solid #ced0d4; border-radius: 8px; padding: 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                        <div style="font-size: 12px; color: #65676b; margin-bottom: 4px;">ROAS</div>
+                        <div style="font-size: 22px; font-weight: 700; color: #31a24c;">4.8x</div>
+                    </div>
+                </div>
+                <!-- Graph Area -->
+                <div style="background: white; border: 1px solid #ced0d4; border-radius: 8px; padding: 16px; height: 200px; position: relative; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                    <div style="font-size: 13px; font-weight: 600; color: #050505; font-family: -apple-system, sans-serif; margin-bottom: 16px;">Performance Overview</div>
+                    <!-- Mock Graph Lines -->
+                    <svg width="100%" height="130" viewBox="0 0 400 100" preserveAspectRatio="none">
+                        <path d="M0 90 Q 50 20 100 60 T 200 40 T 300 70 T 400 10" fill="none" stroke="#1877F2" stroke-width="3" />
+                        <path d="M0 95 Q 50 50 100 70 T 200 60 T 300 80 T 400 30" fill="none" stroke="#31a24c" stroke-width="3" opacity="0.6"/>
+                        <circle cx="400" cy="10" r="4" fill="#1877F2" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="content-section" style="background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+        <div style="text-align: center; margin-bottom: 60px;">
+            <div style="font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--orange); margin-bottom: 16px;">The Process</div>
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 36px; color: var(--ink);">Campaign Setup & Targeting Methods</h2>
+        </div>
+        
+        <ul class="process-list">
+            <li class="process-item">
+                <div class="process-num">1</div>
+                <div class="process-body">
+                    <h3>Account Audit & Pixel Structuring</h3>
+                    <p>We ensure the Conversions API (CAPI) is firing perfectly, deduplicating data, and sending rich offline conversion data back to Meta. Without pristine tracking, the algorithm cannot optimize efficiently.</p>
+                </div>
+            </li>
+            <li class="process-item">
+                <div class="process-num">2</div>
+                <div class="process-body">
+                    <h3>Broad & Lookalike Layering</h3>
+                    <p>We utilize broad targeting paired with strict exclusion lists, along with high-value Lookalike Audiences (LALs) built from your top 10% lifetime value customers, to feed the system high-quality signals.</p>
+                </div>
+            </li>
+            <li class="process-item">
+                <div class="process-num">3</div>
+                <div class="process-body">
+                    <h3>Dynamic Creative Testing (DCT)</h3>
+                    <p>Using a sandbox campaign structure, we rapidly test ad copy, headlines, and creative assets (UGC, statics, motion graphics) to find outlier winners before moving them into the scaling campaigns.</p>
+                </div>
+            </li>
+            <li class="process-item">
+                <div class="process-num">4</div>
+                <div class="process-body">
+                    <h3>Conversion Optimization Focus</h3>
+                    <p>Campaigns are strictly tied to backend ROI. We focus on Cost Per Acquisition (CPA) and Return on Ad Spend (ROAS). If a campaign looks good on Facebook but isn't translating to bank revenue, it gets cut.</p>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <!-- EXPECTED RESULTS -->
+    <section class="content-section">
+        <div style="text-align: center;">
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 36px; color: var(--ink);">Expected Value</h2>
+        </div>
+        <div class="cards-grid">
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                </div>
+                <h3>Stable Scaling</h3>
+                <p>Move past the "feast or famine" cycle. By structuring accounts correctly, we maintain profitability even as we aggressively increase your daily ad spend budgets.</p>
+            </div>
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </div>
+                <h3>Higher LTV Capture</h3>
+                <p>We don't just optimize for the first purchase; we implement deep retargeting structures that bring customers back for their second and third orders.</p>
+            </div>
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <h3>Time Reclaimed</h3>
+                <p>Stop worrying about algorithm updates. You focus on operations and product, while I handle the entire media buying architecture and creative rotation.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-inner">
+            <div>
+                <div class="footer-brand" style="margin-bottom:16px;">
+                    <img src="logo/logo transparent background.png" alt="Pixelara Media" class="footer-logo-img" />
+                </div>
+                <p class="footer-desc">Performance marketing built around revenue — not vanity metrics. Helping businesses in the US & UK grow through paid advertising and strategic content.</p>
+            </div>
+            <div>
+                <div class="footer-col-title">Company</div>
+                <ul class="footer-links">
+                    <li><a href="pixelaramedia new file edited.html#about">About</a></li>
+                    <li><a href="pixelaramedia new file edited.html#services">Services</a></li>
+                    <li><a href="pixelaramedia new file edited.html#cases">Case Studies</a></li>
+                    <li><a href="pixelaramedia new file edited.html#packages">Packages</a></li>
+                    <li><a href="pixelaramedia new file edited.html#portfolio">Portfolio</a></li>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div>
+                <div class="footer-col-title">Contact</div>
+                <ul class="footer-links">
+                    <li><a href="mailto:hello@pixelaramedia.com">hello@pixelaramedia.com</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                    <li><a href="#">Twitter / X</a></li>
+                    <li><a href="#">Upwork Profile</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span class="footer-copy">© 2025 Pixelara Media. All rights reserved.</span>
+        </div>
+    </footer>
+</body>
+</html>
